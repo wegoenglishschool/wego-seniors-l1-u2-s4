@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WE GO · Session 4 · Relationships</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #05046A;
+      --yellow: #F1C405;
+      --warmup: #4CAF50;
+      --slang: #1565C0;
+      --slang-practice: #00838F;
+      --speaking: #E91E63;
+      --listening: #FF9800;
+      --exit: #673AB7;
+      --homework: #607D8B;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Montserrat', sans-serif; background: var(--navy); color: #fff; overflow: hidden; height: 100vh; }
+
+    /* ── COVER ────────────────────────────────────────────────────────── */
+    #cover { position: relative; width: 100%; height: 100vh; overflow: hidden; background: var(--navy); }
+    #cover-img-area { position: absolute; inset: 0; background: url('images/cover_s4.webp') center/cover no-repeat; z-index: 1; }
+    .cover-content { position: relative; z-index: 10; height: 100%; display: flex; flex-direction: column; justify-content: space-between; padding: 60px; pointer-events: none; }
+    .cover-top { text-align: left; }
+    .cover-brand { font-size: 14px; font-weight: 800; letter-spacing: 4px; color: #fff; margin-bottom: 20px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+    .cover-unit-label { font-size: 24px; font-weight: 600; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+    .cover-unit-name { font-size: 80px; font-weight: 800; color: var(--yellow); font-family: 'Playfair Display', serif; margin: -10px 0 10px; text-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+    .cover-session { font-size: 18px; font-weight: 600; color: #fff; background: rgba(0,0,0,0.3); padding: 10px 20px; border-radius: 50px; width: fit-content; backdrop-filter: blur(5px); }
+    
+    .cover-bottom { width: 100%; padding-bottom: 50px; pointer-events: auto; }
+    .cover-nav-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; width: 90%; max-width: 1400px; margin: 0 auto; }
+    .cover-btn { border: 2px solid transparent; border-radius: 15px; padding: 25px 40px; color: #fff; cursor: pointer; transition: all 0.3s; text-align: center; display: flex; flex-direction: column; gap: 8px; align-items: center; min-width: 250px; }
+    .cover-btn:hover { transform: translateY(-5px); filter: brightness(1.2); }
+    .cover-btn.wu { background: var(--warmup); }
+    .cover-btn.sl { background: var(--slang); }
+    .cover-btn.sp { background: var(--slang-practice); }
+    .cover-btn.sk1 { background: var(--speaking); }
+    .cover-btn.sk2 { background: var(--speaking); }
+    .cover-btn.ls { background: var(--listening); }
+    .cover-btn.et { background: var(--exit); }
+    .cover-btn.hw { background: var(--homework); }
+    .cover-btn-phase { font-size: 18px; font-weight: 800; text-transform: uppercase; }
+    .cover-btn-title { font-size: 14px; font-weight: 600; opacity: 0.9; }
+
+    /* ── SLIDES BASE ──────────────────────────────────────────────────── */
+    #slides-wrapper { display: none; height: 100vh; flex-direction: column; }
+    #navbar { background: rgba(0,0,0,0.3); padding: 10px 40px; display: flex; align-items:center; gap:10px; border-bottom: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); height: 60px; }
+    #nb-back { background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; padding: 5px; border-radius: 50%; transition: background 0.3s; }
+    #nb-back:hover { background: rgba(255,255,255,0.1); }
+    .nb-btn { background: none; border: none; color: rgba(255,255,255,0.5); font-weight: 700; font-size: 13px; cursor: pointer; padding: 5px 10px; border-radius: 20px; transition: all 0.3s; }
+    .nb-btn.active { color: var(--yellow); background: rgba(241,196,5,0.1); }
+    #nb-counter { margin-left: auto; font-weight: 800; font-size: 13px; color: var(--yellow); }
+
+    .slide { display: none; flex: 1; padding: 20px 40px; overflow: hidden; }
+    .slide.active { display: flex; flex-direction: column; }
+    .slide-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; }
+    .slide-phase { font-size: 12px; font-weight: 800; color: var(--yellow); letter-spacing: 2px; }
+    .slide-title { font-size: 32px; font-weight: 800; font-family: 'Playfair Display', serif; }
+    .lp-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 5px 15px; border-radius: 30px; cursor: pointer; font-weight: 700; font-size: 11px; transition: all 0.3s; }
+    .lp-btn:hover { background: #fff; color: var(--navy); }
+
+    /* ── PHASE 1: WARM-UP ─────────────────────────────────────────────── */
+    .wu-container { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 15px; background: var(--navy); border-radius: 30px; border: 4px solid rgba(255,255,255,0.1); padding: 20px; margin-bottom: 10px; }
+    .wu-badge { background: var(--yellow); color: var(--navy); padding: 5px 20px; border-radius: 50px; font-weight: 800; font-size: 12px; }
+    .wu-emojis { font-size: 100px; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3)); background: rgba(255,255,255,0.05); padding: 20px 60px; border-radius: 40px; border: 2px solid rgba(255,255,255,0.1); }
+    .wu-job-name { font-size: 48px; font-weight: 800; color: var(--yellow); visibility: hidden; height: 60px; }
+    .wu-job-name.revealed { visibility: visible; }
+    .wu-controls { display: flex; flex-direction: column; gap: 10px; align-items: center; }
+    .wu-nav-group { display: flex; gap: 15px; }
+    .wu-btn { background: rgba(255,255,255,0.1); border: 2px solid #fff; color: #fff; padding: 10px 30px; border-radius: 50px; font-weight: 800; cursor: pointer; transition: all 0.3s; font-size: 14px; }
+    .wu-btn:hover { background: #fff; color: var(--navy); }
+
+    /* ── PHASE 2: SLANG PRESENTATION ──────────────────────────────────── */
+    .sl-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; flex: 1; }
+    .sl-card { background: rgba(255,255,255,0.05); border-radius: 20px; padding: 10px; border: 2px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; gap: 10px; transition: all 0.3s; height: 100%; }
+    .sl-img { width: 100%; flex: 1; object-fit: cover; border-radius: 10px; min-height: 200px; }
+    .sl-word { font-size: 16px; font-weight: 800; color: var(--yellow); text-align: center; }
+
+    /* ── PHASE 3: SLANG PRACTICE ───────────────────────────────────────── */
+    .sp-container { display: flex; flex-direction: column; gap: 10px; height: 100%; }
+    .sp-grid { display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(2, 1fr); gap: 10px; flex: 1; padding-bottom: 10px; }
+    .sp-card { position: relative; background: var(--navy); border-radius: 12px; overflow: hidden; cursor: pointer; border: 2px solid rgba(255,255,255,0.1); }
+    .sp-overlay { position: absolute; inset: 0; background: var(--navy); display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: 800; color: var(--yellow); z-index: 10; transition: opacity 0.6s; border: 3px solid var(--yellow); }
+    .sp-card.revealed .sp-overlay { opacity: 0; pointer-events: none; }
+    .sp-img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+    .sp-model-box { background: rgba(255,255,255,0.05); border-radius: 50px; padding: 5px 25px; display: flex; align-items: center; gap: 15px; color: #fff; border: 2px solid var(--yellow); margin-bottom: 10px; width: fit-content; }
+    .sp-model-title { font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--yellow); letter-spacing: 1px; border-right: 2px solid var(--yellow); padding-right: 15px; }
+    .sp-model-text { font-size: 14px; font-weight: 600; display: flex; gap: 20px; }
+
+    /* ── PHASE 4: SPEAKING 1 ───────────────────────────────────────────── */
+    .sk1-container { flex: 1; display: flex; flex-direction: column; gap: 10px; }
+    .sk1-grid { display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(2, 1fr); gap: 10px; flex: 1; }
+    .sk1-card { position: relative; background: var(--navy); border-radius: 12px; overflow: hidden; cursor: pointer; border: 2px solid rgba(255,255,255,0.1); height: 100%; }
+    .sk1-curtain-left, .sk1-curtain-right { position: absolute; top: 0; bottom: 0; width: 50.5%; background: var(--navy); z-index: 10; transition: transform 0.8s; border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 800; color: var(--yellow); }
+    .sk1-curtain-left { left: 0; }
+    .sk1-curtain-right { right: 0; }
+    .sk1-card.revealed .sk1-curtain-left { transform: translateX(-100%); }
+    .sk1-card.revealed .sk1-curtain-right { transform: translateX(100%); }
+    .sk1-card img { width: 100%; height: 100%; object-fit: cover; }
+    .sk1-model-box { background: rgba(255,255,255,0.05); border-radius: 50px; padding: 5px 20px; display: flex; align-items: center; gap: 15px; color: var(--yellow); border: 2px solid #fff; width: fit-content; margin-bottom: 5px; }
+    .sk1-model-title { font-size: 11px; font-weight: 800; text-transform: uppercase; color: #fff; letter-spacing: 1px; border-right: 2px solid #fff; padding-right: 15px; }
+    .sk1-model-text { font-size: 14px; font-weight: 600; display: flex; gap: 20px; white-space: nowrap; }
+
+    /* ── PHASE 5: SPEAKING 2 ───────────────────────────────────────────── */
+    .sk2-container { flex: 1; display: flex; flex-direction: column; gap: 10px; }
+    .sk2-model-box { background: rgba(255,255,255,0.05); border-radius: 15px; padding: 5px 20px; display: flex; align-items: center; gap: 20px; color: #fff; border: 2px solid var(--yellow); }
+    .sk2-model-grid { display: flex; gap: 20px; flex: 1; justify-content: space-around; }
+    .sk2-model-pair { display: flex; flex-direction: column; gap: 2px; font-size: 12px; }
+    .sk2-main-area { display: flex; gap: 20px; align-items: center; justify-content: center; flex: 1; }
+    .sk2-photo-area { width: 420px; height: 420px; border-radius: 20px; overflow: hidden; border: 4px solid rgba(255,255,255,0.2); }
+    .sk2-photo-area img { width: 100%; height: 100%; object-fit: cover; }
+    .sk2-data-area { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; flex: 1; }
+    .sk2-person-card { background: rgba(255,255,255,0.08); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 8px; border: 1px solid rgba(255,255,255,0.1); }
+    .sk2-field { display: flex; flex-direction: column; }
+    .sk2-label { font-size: 11px; font-weight: 800; color: rgba(255,255,255,0.5); text-transform: uppercase; }
+    .sk2-value { font-size: 16px; font-weight: 700; color: var(--yellow); display: flex; align-items: center; gap: 5px; }
+    .sk2-flag { width: 20px; height: 14px; object-fit: cover; border-radius: 2px; }
+    .sk2-controls { display: flex; align-items: center; gap: 15px; margin-top: 10px; }
+
+    /* ── PHASE 6: LISTENING ───────────────────────────────────────────── */
+    .ls-container { flex: 1; display: flex; gap: 30px; align-items: center; }
+    .ls-left { flex: 1; background: rgba(255,255,255,0.05); border-radius: 25px; padding: 20px; border: 2px solid rgba(255,255,255,0.1); }
+    .ls-form { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .ls-row { display: flex; flex-direction: column; gap: 5px; }
+    .ls-label { font-size: 10px; font-weight: 800; color: rgba(255,255,255,0.5); text-transform: uppercase; }
+    .ls-input-wrapper { display: flex; gap: 5px; }
+    .ls-input { flex: 1; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 8px 12px; color: #fff; font-size: 14px; }
+    .ls-check { width: 35px; height: 35px; border-radius: 8px; border: none; background: rgba(255,255,255,0.1); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .ls-right { width: 380px; display: flex; flex-direction: column; gap: 15px; align-items: center; }
+    .ls-speaker-img { width: 100%; height: 320px; border-radius: 15px; object-fit: contain; background: rgba(0,0,0,0.2); }
+    .ls-audio-panel { background: rgba(0,0,0,0.4); border-radius: 50px; padding: 10px 20px; display: flex; align-items: center; gap: 15px; width: 100%; }
+    .ls-play { width: 40px; height: 40px; border-radius: 50%; background: var(--listening); border: none; cursor: pointer; color: var(--navy); }
+
+    /* ── PHASE 7: EXIT TICKET ──────────────────────────────────────────── */
+    .et-container { display: flex; height: 100%; gap: 30px; align-items: center; }
+    .et-left { flex: 1; border-radius: 25px; overflow: hidden; height: 80%; }
+    .et-left img { width: 100%; height: 100%; object-fit: cover; }
+    .et-right { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+    .et-model { background: rgba(255,255,255,0.05); color: #fff; padding: 20px; border-radius: 20px; border: 2px solid var(--yellow); }
+    .et-model-text { font-size: 16px; line-height: 1.4; font-weight: 600; }
+
+    /* ── PHASE 8: HOMEWORK ─────────────────────────────────────────────── */
+    .hw-container { display: flex; gap: 30px; justify-content: center; align-items: center; flex: 1; padding: 0 100px; }
+    .hw-card { background: rgba(255,255,255,0.08); border-radius: 20px; padding: 25px; display: flex; flex-direction: column; gap: 15px; align-items: center; border: 2px solid rgba(255,255,255,0.15); width: 350px; text-align: center; flex: none; }
+    .hw-title { font-size: 20px; font-weight: 800; color: var(--yellow); }
+    .hw-desc { font-size: 15px; color: #fff; line-height: 1.4; }
+
+    /* ── MODAL ─────────────────────────────────────────────────────────── */
+    #lp-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 20px; }
+    #lp-modal { background: #fff; color: var(--navy); width: 100%; max-width: 900px; max-height: 90vh; border-radius: 20px; padding: 30px; position: relative; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
+    #lp-close { position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 30px; cursor: pointer; color: var(--navy); opacity: 0.5; }
+    #lp-title { font-size: 32px; font-weight: 800; font-family: 'Playfair Display', serif; color: var(--navy); }
+    .lp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .lp-card { background: #F5F7FF; padding: 15px; border-radius: 15px; }
+    .lp-card-body { font-size: 14px; line-height: 1.4; color: #05046A; }
+  </style>
+</head>
+<body>
+
+<div id="app">
+  <!-- ══ COVER ══ -->
+  <div id="cover">
+    <div id="cover-img-area"></div>
+    <div class="cover-content">
+      <div class="cover-top">
+        <div class="cover-brand">WE GO · SENIORS · LEVEL 1</div>
+        <div class="cover-unit-label">Unit 2</div>
+        <div class="cover-unit-name">Relationships</div>
+        <div class="cover-session">Session 4 · Possessive Adjectives · People in Your Life · 60 min</div>
+      </div>
+      <div class="cover-bottom">
+        <div class="cover-nav-grid">
+          <button class="cover-btn wu" onclick="goTo(1)">
+            <span class="cover-btn-phase">Warm-up</span>
+            <span class="cover-btn-title">Emoji Jobs</span>
+          </button>
+          <button class="cover-btn sl" onclick="goTo(2)">
+            <span class="cover-btn-phase">Slang</span>
+            <span class="cover-btn-title">Close Quarters</span>
+          </button>
+          <button class="cover-btn sp" onclick="goTo(3)">
+            <span class="cover-btn-phase">Slang Practice</span>
+            <span class="cover-btn-title">Scratch Card</span>
+          </button>
+          <button class="cover-btn sk1" onclick="goTo(4)">
+            <span class="cover-btn-phase">Speaking 1</span>
+            <span class="cover-btn-title">Inner Circle</span>
+          </button>
+          <button class="cover-btn sk2" onclick="goTo(5)">
+            <span class="cover-btn-phase">Speaking 2</span>
+            <span class="cover-btn-title">Squad Goals</span>
+          </button>
+          <button class="cover-btn ls" onclick="goTo(6)">
+            <span class="cover-btn-phase">Listening</span>
+            <span class="cover-btn-title">Who's Talking?</span>
+          </button>
+          <button class="cover-btn et" onclick="goTo(7)">
+            <span class="cover-btn-phase">Exit Ticket</span>
+            <span class="cover-btn-title">Before You Go</span>
+          </button>
+          <button class="cover-btn hw" onclick="goTo(8)">
+            <span class="cover-btn-phase">Homework</span>
+            <span class="cover-btn-title">For Next Class</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SLIDES WRAPPER ══ -->
+  <div id="slides-wrapper">
+    <nav id="navbar">
+      <button id="nb-back" onclick="goHome()">←</button>
+      <button class="nb-btn" id="nb-1" onclick="goTo(1)">Warm-up</button>
+      <button class="nb-btn" id="nb-2" onclick="goTo(2)">Slang</button>
+      <button class="nb-btn" id="nb-3" onclick="goTo(3)">Slang Practice</button>
+      <button class="nb-btn" id="nb-4" onclick="goTo(4)">Speaking 1</button>
+      <button class="nb-btn" id="nb-5" onclick="goTo(5)">Speaking 2</button>
+      <button class="nb-btn" id="nb-6" onclick="goTo(6)">Listening</button>
+      <button class="nb-btn" id="nb-7" onclick="goTo(7)">Exit Ticket</button>
+      <button class="nb-btn" id="nb-8" onclick="goTo(8)">Homework</button>
+      <div id="nb-counter">1 / 8</div>
+    </nav>
+
+    <!-- SLIDE 1: WARM-UP -->
+    <div class="slide" id="slide-1">
+      <div class="slide-header">
+        <div class="slide-info">
+          <div class="slide-phase">WARM-UP</div>
+          <div class="slide-title">What's My Job?</div>
+        </div>
+        <button class="lp-btn" onclick="openLP(1)">📄 Lesson Plan</button>
+      </div>
+      <div class="wu-container">
+        <div class="wu-badge" id="wu-badge">Round 1</div>
+        <div class="wu-emojis" id="wu-emojis">🦷 + 👄 + 🪑</div>
+        <div class="wu-reveal-area">
+          <div class="wu-job-name" id="wu-job-name">DENTIST</div>
+        </div>
+        <div class="wu-controls">
+          <button class="wu-btn reveal" onclick="revealWU()" style="background:var(--yellow); color:var(--navy); width:200px;">REVEAL</button>
+          <div class="wu-nav-group">
+            <button class="wu-btn" onclick="prevWU()">PREV</button>
+            <button class="wu-btn" onclick="nextWU()">NEXT</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2: SLANG PRESENTATION -->
+    <div class="slide" id="slide-2">
+      <div class="slide-header">
+        <div class="slide-info">
+          <div class="slide-phase">SLANG</div>
+          <div class="slide-title">Close Quarters</div>
+        </div>
+        <button class="lp-btn" onclick="openLP(2)">📄 Lesson Plan</button>
+      </div>
+      <div class="sl-grid" id="sl-grid"></div>
+    </div>
+
+    <!-- SLIDE 3: SLANG PRACTICE -->
+    <div class="slide" id="slide-3">
+      <div class="slide-header">
+        <div class="slide-info">
+          <div class="slide-phase">SLANG PRACTICE</div>
+          <div class="slide-title">Scratch Card</div>
+        </div>
+        <button class="lp-btn" onclick="openLP(3)">📄 Lesson Plan</button>
+      </div>
+      <div class="sp-container">
+        <div class="sp-model-box">
+          <div class="sp-model-title">Dialogue Model</div>
+          <div class="sp-model-text">
+            <span><strong>A:</strong> What slang is this?</span>
+            <span><strong>B:</strong> This is <strong>my buddy</strong> Carlos. He is my best friend.</span>
+          </div>
+        </div>
+        <div class="sp-grid" id="sp-grid"></div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: SPEAKING 1 -->
+    <div class="slide" id="slide-4">
+      <div class="slide-header">
+        <div class="slide-info">
+          <div class="slide-phase">SPEAKING 1</div>
+          <div class="slide-title">My Inner Circle</div>
+        </div>
+        <button class="lp-btn" onclick="openLP(4)">📄 Lesson Plan</button>
+      </div>
+      <div class="sk1-container">
+        <div class="sk1-model-box">
+          <div class="sk1-model-title">Description Model</div>
+          <div class="sk1-model-text">
+            <span>This is Carlos. He is my <strong>right-hand man</strong>. He always helps me at work.</span>
+            <span>This is Mia. She is my <strong>buddy</strong>. We always go to the movies.</span>
+          </div>
+        </div>
+        <div id="sk1-grid" class="sk1-grid"></div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5: SPEAKING 2 -->
+    <div class="slide" id="slide-5">
+      <div class="slide-header">
+        <div class="slide-info">
+          <div class="slide-phase">SPEAKING 2</div>
+          <div class="slide-title">Squad Goals</div>
+        </div>
+        <button class="lp-btn" onclick="openLP(5)">📄 Lesson Plan</button>
+      </div>
+      <div class="sk2-container">
+        <div class="sk2-model-box">
+          <div class="sk2-model-title">Description Model</div>
+          <div class="sk2-model-grid">
+            <div class="sk2-model-pair">
+              <span><strong>A:</strong> What is her name?</span>
+              <span><strong>B:</strong> Her name is Roxanne.</span>
+            </div>
+            <div class="sk2-model-pair">
+              <span><strong>A:</strong> How old is she?</span>
+              <span><strong>B:</strong> She is 34 years old.</span>
+            </div>
+            <div class="sk2-model-pair">
+              <span><strong>A:</strong> Where is she from?</span>
+              <span><strong>B:</strong> She is Italian.</span>
+            </div>
+          </div>
+        </div>
+        <div class="sk2-main-area">
+          <div class="sk2-left-col">
+            <div class="sk2-photo-area" id="sk2-photo"></div>
+            <div class="sk2-controls">
+              <button class="wu-btn" onclick="prevSK2()" style="padding:5px 15px; font-size:12px;">PREV</button>
+              <span id="sk2-counter" style="font-weight:800; font-size:16px; margin: 0 10px;">1 / 10</span>
+              <button class="wu-btn" onclick="nextSK2()" style="padding:5px 15px; font-size:12px;">NEXT</button>
+            </div>
+          </div>
+          <div class="sk2-data-area" id="sk2-cards"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6: LISTENING -->
+    <div class="slide" id="slide-6">
+      <div class="slide-header">
+        <div class="slide-info">
+          <div class="slide-phase">LISTENING</div>
+          <div class="slide-title">Who's Talking?</div>
+        </div>
+        <button class="lp-btn" onclick="openLP(6)">📄 Lesson Plan</button>
+      </div>
+      <div class="ls-container">
+        <div class="ls-left">
+          <div class="ls-form" id="ls-form"></div>
+        </div>
+        <div class="ls-right">
+          <div class="ls-speaker-card" id="ls-speaker-card">
+             <img id="ls-speaker-img" class="ls-speaker-img">
+             <div id="ls-speaker-name" style="font-size:18px; font-weight:800; margin-top:5px;"></div>
+          </div>
+          <div class="ls-audio-panel">
+            <button class="ls-play" id="ls-play-btn" onclick="toggleAudio()">▶</button>
+            <div id="ls-waveform" style="flex:1; height:20px; display:flex; align-items:center; gap:2px;"></div>
+          </div>
+          <div class="ls-nav">
+            <button class="wu-btn" onclick="prevLS()" style="padding:5px 15px; font-size:12px;">PREV</button>
+            <span id="ls-counter" style="font-weight:800; font-size:14px;">1 / 4</span>
+            <button class="wu-btn" onclick="nextLS()" style="padding:5px 15px; font-size:12px;">NEXT</button>
+          </div>
+        </div>
+      </div>
+      <audio id="ls-audio-player"></audio>
+    </div>
+
+    <!-- SLIDE 7: EXIT TICKET -->
+    <div class="slide" id="slide-7">
+      <div class="slide-header">
+        <div class="slide-info">
+          <div class="slide-phase">EXIT TICKET</div>
+          <div class="slide-title">Before You Go</div>
+        </div>
+        <button class="lp-btn" onclick="openLP(7)">📄 Lesson Plan</button>
+      </div>
+      <div class="et-container">
+        <div class="et-left">
+          <img src="images/Phase7_ExitTicket/et7_squad_final.jpg">
+        </div>
+        <div class="et-right">
+          <div class="et-title" style="margin-bottom:10px; font-size:24px;">My Inner Circle Check</div>
+          <div class="et-model">
+            <div class="et-model-text">
+              <span style="color:var(--yellow); display:block; margin-bottom:5px;">Teacher: Who is your <strong>go-to person</strong> when you have a problem?</span>
+              Student: My <strong>go-to person</strong> is Maria. Her name is Maria. She is thirty-two years old. She is a nurse. She is Mexican and she lives in Miami.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 8: HOMEWORK -->
+    <div class="slide" id="slide-8">
+      <div class="slide-header">
+        <div class="slide-info">
+          <div class="slide-phase">HOMEWORK</div>
+          <div class="slide-title">Next Steps</div>
+        </div>
+        <button class="lp-btn" onclick="openLP(8)">📄 Lesson Plan</button>
+      </div>
+      <div class="hw-container">
+        <div class="hw-card">
+          <div class="hw-title">Workbook Practice</div>
+          <div class="hw-desc">p. 39 — Exercise B · Vocabulary: Relationships practice.</div>
+        </div>
+        <div class="hw-card">
+          <div class="hw-title">Grammar Focus</div>
+          <div class="hw-desc">p. 41 — Exercises A & B · Possessive Adjectives.</div>
+        </div>
+        <div class="hw-card">
+          <div class="hw-title">Mixed Review</div>
+          <div class="hw-desc">p. 42 — Exercise C · Mixed possessive adjectives practice.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="lp-overlay">
+  <div id="lp-modal">
+    <button id="lp-close" onclick="closeLP()">×</button>
+    <div id="lp-title">Title</div>
+    <div class="lp-grid">
+      <div class="lp-card"><div class="lp-card-body" id="lp-goal"></div></div>
+      <div class="lp-card"><div class="lp-card-body" id="lp-cues"></div></div>
+      <div class="lp-card"><div class="lp-card-body" id="lp-dos"></div></div>
+      <div class="lp-card"><div class="lp-card-body" id="lp-donts"></div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const WU_DATA = [
+    { round: 1, emojis: '🦷 + 👄 + 🪑', job: 'DENTIST' },
+    { round: 2, emojis: '✈️ + 👨‍✈️ + ☁️', job: 'PILOT' },
+    { round: 3, emojis: '🍳 + 👨‍🍳 + 🍽️', job: 'CHEF' },
+    { round: 4, emojis: '🚒 + 👨‍🚒 + 🔥', job: 'FIREFIGHTER' },
+    { round: 5, emojis: '🏫 + 👩‍🏫 + 📚', job: 'TEACHER' }
+  ];
+
+  const SL_DATA = [
+    { word: 'My Buddy', img: 'images/Phase2_Slangs/s2_01_buddy.jpg' },
+    { word: 'My Squad', img: 'images/Phase2_Slangs/s2_03_squad.jpg' },
+    { word: 'My Right-hand man', img: 'images/Phase2_Slangs/s2_02_righthand.jpg' },
+    { word: 'Partner in crime', img: 'images/Phase2_Slangs/s2_05_partnerincrime.jpg' },
+    { word: 'Go-to person', img: 'images/Phase2_Slangs/s2_04_gotoperson.jpg' }
+  ];
+
+  const SP_DATA = [
+    { img: 'images/Phase3_ScratchCard/sc_01_fistbump.jpg' },
+    { img: 'images/Phase3_ScratchCard/sc_02_groupselfie.jpg' },
+    { img: 'images/Phase3_ScratchCard/sc_03_assistant_tablet.jpg' },
+    { img: 'images/Phase3_ScratchCard/sc_04_IT_woman.jpg' },
+    { img: 'images/Phase3_ScratchCard/sc_05_pizza_friends.jpg' },
+    { img: 'images/Phase3_ScratchCard/sc_06_dog_walk.jpg' },
+    { img: 'images/Phase3_ScratchCard/sc_07_team_coffee.jpg' },
+    { img: 'images/Phase3_ScratchCard/sc_08_executive_assistant.jpg' },
+    { img: 'images/Phase3_ScratchCard/sc_09_librarian.jpg' },
+    { img: 'images/Phase3_ScratchCard/sc_10_blanket_fort.jpg' }
+  ];
+
+  const SK1_DATA = [
+    'images/Phase4_InnerCircle/ic_01_beach_women.jpg', 'images/Phase4_InnerCircle/ic_02_basketball.jpg',
+    'images/Phase4_InnerCircle/ic_03_office_organizer.jpg', 'images/Phase4_InnerCircle/ic_04_mechanic.jpg',
+    'images/Phase4_InnerCircle/ic_05_siblings_gaming.jpg', 'images/Phase4_InnerCircle/ic_06_cooking.jpg',
+    'images/Phase4_InnerCircle/ic_07_study_group.jpg', 'images/Phase4_InnerCircle/ic_08_road_trip.jpg',
+    'images/Phase4_InnerCircle/ic_09_gym.jpg', 'images/Phase4_InnerCircle/ic_10_concert.jpg'
+  ];
+
+  const SK2_DATA = [
+    {img: 'images/Phase5_SquadGoals/sg_01_college.jpg', people: [
+      {first:'Roxanne', last:'Smith', age:'34', nat:'Italian', flag:'it.png', zip:'00100', phone:'555-012-3456', email:'rox.s@work.com'},
+      {first:'Marco', last:'Rossi', age:'36', nat:'Spanish', flag:'es.png', zip:'00187', phone:'555-987-6543', email:'m.rossi@work.com'},
+      {first:'Giulia', last:'Bianchi', age:'29', nat:'French', flag:'fr.png', zip:'20100', phone:'555-456-7890', email:'g.bianchi@work.com'}
+    ]},
+    {img: 'images/Phase5_SquadGoals/sg_02_work_team.jpg', people: [
+      {first:'Elena', last:'Varga', age:'28', nat:'Hungarian', flag:'hu.png', zip:'1051', phone:'555-111-2222', email:'elena.v@cafe.hu'},
+      {first:'Zoltan', last:'Nagy', age:'31', nat:'German', flag:'us.png', zip:'1011', phone:'555-333-4444', email:'z.nagy@cafe.hu'},
+      {first:'Luca', last:'Szabo', age:'25', nat:'Austrian', flag:'ca.png', zip:'1022', phone:'555-555-6666', email:'l.szabo@cafe.hu'}
+    ]},
+    {img: 'images/Phase5_SquadGoals/sg_03_neighborhood.jpg', people: [
+      {first:'Sven', last:'Lund', age:'30', nat:'Swedish', flag:'se.png', zip:'11122', phone:'555-777-8888', email:'sven.l@fit.se'},
+      {first:'Astrid', last:'Holm', age:'27', nat:'Norwegian', flag:'gb.png', zip:'11233', phone:'555-999-0000', email:'astrid.h@fit.se'},
+      {first:'Bjorn', last:'Olof', age:'32', nat:'Danish', flag:'mx.png', zip:'11444', phone:'555-222-3333', email:'bjorn.o@fit.se'}
+    ]},
+    {img: 'images/Phase5_SquadGoals/sg_04_travel.jpg', people: [
+      {first:'Clara', last:'Dubois', age:'45', nat:'French', flag:'fr.png', zip:'75001', phone:'555-444-5555', email:'clara.d@art.fr'},
+      {first:'Jean', last:'Moreau', age:'48', nat:'Swiss', flag:'it.png', zip:'75008', phone:'555-666-7777', email:'jean.m@art.fr'},
+      {first:'Lucie', last:'Petit', age:'42', nat:'Belgian', flag:'ca.png', zip:'75015', phone:'555-888-9999', email:'lucie.p@art.fr'}
+    ]},
+    {img: 'images/Phase5_SquadGoals/sg_05_fitness.jpg', people: [
+      {first:'Carlos', last:'Ruiz', age:'38', nat:'Spanish', flag:'es.png', zip:'28001', phone:'555-000-1111', email:'c.ruiz@tennis.es'},
+      {first:'Ana', last:'Sanz', age:'35', nat:'Mexican', flag:'mx.png', zip:'28010', phone:'555-222-3333', email:'ana.s@tennis.es'},
+      {first:'Luis', last:'Gomez', age:'40', nat:'Argentinian', flag:'ar.png', zip:'28020', phone:'555-444-5555', email:'luis.g@tennis.es'}
+    ]},
+    {img: 'images/Phase5_SquadGoals/sg_06_book_club.jpg', people: [
+      {first:'Viktor', last:'Ivanov', age:'42', nat:'Russian', flag:'us.png', zip:'10100', phone:'555-223-4455', email:'viktor.i@books.com'},
+      {first:'Olga', last:'Smit', age:'39', nat:'Dutch', flag:'ca.png', zip:'1011', phone:'555-556-7788', email:'olga.s@books.com'},
+      {first:'Ivan', last:'Petrov', age:'41', nat:'Bulgarian', flag:'gb.png', zip:'1000', phone:'555-889-0011', email:'ivan.p@books.com'}
+    ]},
+    {img: 'images/Phase5_SquadGoals/sg_07_cooking_class.jpg', people: [
+      {first:'Raj', last:'Patel', age:'35', nat:'Indian', flag:'in.png', zip:'400001', phone:'555-112-3344', email:'raj.p@cook.com'},
+      {first:'Priya', last:'Nair', age:'32', nat:'Pakistani', flag:'pk.png', zip:'600001', phone:'555-445-6677', email:'priya.n@cook.com'},
+      {first:'Arjun', last:'Singh', age:'34', nat:'British', flag:'gb.png', zip:'110001', phone:'555-778-9900', email:'arjun.s@cook.com'}
+    ]},
+    {img: 'images/Phase5_SquadGoals/sg_08_hiking.jpg', people: [
+      {first:'Omar', last:'Hassan', age:'30', nat:'Egyptian', flag:'eg.png', zip:'11511', phone:'555-223-4455', email:'omar.h@hike.com'},
+      {first:'Fatima', last:'Ali', age:'28', nat:'Moroccan', flag:'ma.png', zip:'10000', phone:'555-556-7788', email:'fatima.a@hike.com'},
+      {first:'Zaid', last:'Bakir', age:'32', nat:'Jordanian', flag:'jo.png', zip:'11110', phone:'555-889-0011', email:'zaid.b@hike.com'}
+    ]},
+    {img: 'images/Phase5_SquadGoals/sg_09_game_night.jpg', people: [
+      {first:'Hiroshi', last:'Sato', age:'55', nat:'Japanese', flag:'jp.png', zip:'100-00', phone:'555-112-3344', email:'hiroshi.s@games.com'},
+      {first:'Sakura', last:'Ito', age:'52', nat:'Korean', flag:'kr.png', zip:'150-00', phone:'555-445-6677', email:'sakura.i@games.com'},
+      {first:'Kenji', last:'Tanaka', age:'58', nat:'Chinese', flag:'cn.png', zip:'160-00', phone:'555-778-9900', email:'kenji.t@games.com'}
+    ]},
+    {img: 'images/Phase5_SquadGoals/sg_10_volunteering.jpg', people: [
+      {first:'Lucas', last:'Mendes', age:'25', nat:'Brazilian', flag:'br.png', zip:'01000', phone:'555-223-4455', email:'lucas.m@help.com'},
+      {first:'Bianca', last:'Costa', age:'24', nat:'Argentinian', flag:'ar.png', zip:'20000', phone:'555-556-7788', email:'bianca.c@help.com'},
+      {first:'Tiago', last:'Santos', age:'26', nat:'Portuguese', flag:'pt.png', zip:'30000', phone:'555-889-0011', email:'tiago.s@help.com'}
+    ]}
+  ];
+
+  const LS_DATA = [
+    { name: 'Vivienne Moreau', img: 'images/Phase6_Listening/l6_04_sofia.jpg', audio: 'audio/WEGO60_Session4_Audio1_Vivienne_v5.wav', answers: ['Vivienne', 'Moreau', '34', 'French journalist', '75008', 'French', 'My go-to person', 'Sophie'] },
+    { name: 'Rodrigo Ashford', img: 'images/Phase6_Listening/l6_01_marcus.jpg', audio: 'audio/WEGO60_Session4_Audio4_Rodrigo_v3.wav', answers: ['Rodrigo', 'Ashford', '47', 'Colombian pilot', '33101', 'Colombian', 'My squad', 'Daniel and Luis'] },
+    { name: 'Celeste Nakamura', img: 'images/Phase6_Listening/l6_02_priya.jpg', audio: 'audio/WEGO60_Session4_Audio3_Celeste_v5.wav', answers: ['Celeste', 'Nakamura', '25', 'Japanese doctor', '90210', 'Japanese', 'My buddy', 'Hana'] },
+    { name: 'Tobias Brennan', img: 'images/Phase6_Listening/l6_03_tom.jpg', audio: 'audio/WEGO60_Session4_Audio2_Tobias_v3.wav', answers: ['Tobias', 'Brennan', '41', 'British engineer', 'SW1A 1AA', 'British', 'My right-hand man', 'Marcus'] }
+  ];
+
+  const LP_DATA = {
+    1: { title: 'Warm-up', goal: 'Identify professions using emoji clues.', cues: 'Show emojis and ask "What\'s my job?"', dos: 'Encourage participation.', donts: 'Don\'t spend more than 5 min.' },
+    2: { title: 'Slang', goal: 'Learn 5 key relationship expressions.', cues: 'Repeat slang. Ask students to repeat.', dos: 'Model correct pronunciation.', donts: 'Don\'t give long definitions.' },
+    3: { title: 'Slang Practice', goal: 'Recall and use slang in context.', cues: 'Pick a number, reveal the image.', dos: 'Make it fun.', donts: 'Don\'t rush reveals.' },
+    4: { title: 'Speaking 1', goal: 'Identify people in life using slang.', cues: 'Ask "Who is your buddy?"', dos: 'Give personal examples.', donts: 'Don\'t correct every mistake.' },
+    5: { title: 'Speaking 2', goal: 'Ask/answer personal info questions.', cues: 'Use model for Q&A.', dos: 'Focus on possessive adjectives.', donts: 'Don\'t let one student dominate.' },
+    6: { title: 'Listening', goal: 'Extract details from audio clips.', cues: 'Play audio, fill in blanks.', dos: 'Play multiple times.', donts: 'Don\'t give answers too soon.' },
+    7: { title: 'Exit Ticket', goal: 'Produce a short description of a person.', cues: 'Ask final question.', dos: 'Celebrate progress.', donts: 'Don\'t make it feel like a test.' },
+    8: { title: 'Homework', goal: 'Apply lesson to own photos.', cues: 'Explain tasks clearly.', dos: 'Encourage sharing.', donts: 'Don\'t make it complicated.' }
+  };
+
+  let currentSlide = 0;
+  let wuIdx = 0;
+  let sk2Idx = 0;
+  let lsIdx = 0;
+  let isPlaying = false;
+
+  function goTo(n) {
+    document.getElementById('cover').style.display = 'none';
+    document.getElementById('slides-wrapper').style.display = 'flex';
+    document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+    document.getElementById(`slide-${n}`).classList.add('active');
+    document.querySelectorAll('.nb-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(`nb-${n}`).classList.add('active');
+    document.getElementById('nb-counter').textContent = `${n} / 8`;
+    currentSlide = n;
+    if(n === 1) renderWU();
+    if(n === 2) renderSL();
+    if(n === 3) renderSP();
+    if(n === 4) renderSK1();
+    if(n === 5) renderSK2();
+    if(n === 6) renderLS();
+  }
+
+  function goHome() {
+    document.getElementById('cover').style.display = 'block';
+    document.getElementById('slides-wrapper').style.display = 'none';
+  }
+
+  function renderWU() {
+    const d = WU_DATA[wuIdx];
+    document.getElementById('wu-badge').textContent = `Round ${d.round}`;
+    document.getElementById('wu-emojis').textContent = d.emojis;
+    const name = document.getElementById('wu-job-name');
+    name.textContent = d.job;
+    name.classList.remove('revealed');
+  }
+  function revealWU() { document.getElementById('wu-job-name').classList.add('revealed'); }
+  function nextWU() { wuIdx = (wuIdx + 1) % WU_DATA.length; renderWU(); }
+  function prevWU() { wuIdx = (wuIdx - 1 + WU_DATA.length) % WU_DATA.length; renderWU(); }
+
+  function renderSL() {
+    const grid = document.getElementById('sl-grid');
+    grid.innerHTML = SL_DATA.map(d => `<div class="sl-card"><img src="${d.img}" class="sl-img"><div class="sl-word">${d.word}</div></div>`).join('');
+  }
+
+  function renderSP(){
+    const grid = document.getElementById('sp-grid');
+    grid.innerHTML = SP_DATA.map((d, i) => `<div class="sp-card" onclick="this.classList.add('revealed')"><div class="sp-overlay">${i + 1}</div><img src="${d.img}" class="sp-img"></div>`).join('');
+  }
+
+  function renderSK1(){
+    const grid = document.getElementById('sk1-grid');
+    grid.innerHTML = SK1_DATA.map((img, i) => `<div class="sk1-card" onclick="this.classList.toggle('revealed')"><div class="sk1-curtain-left"><span>${i + 1}</span></div><div class="sk1-curtain-right"></div><img src="${img}"></div>`).join('');
+  }
+
+  function renderSK2(){
+    const d = SK2_DATA[sk2Idx];
+    document.getElementById('sk2-photo').innerHTML = `<img src="${d.img}">`;
+    document.getElementById('sk2-cards').innerHTML = d.people.map(p => `
+      <div class="sk2-person-card">
+        <div class="sk2-field"><span class="sk2-label">First Name</span><span class="sk2-value">${p.first}</span></div>
+        <div class="sk2-field"><span class="sk2-label">Last Name</span><span class="sk2-value">${p.last}</span></div>
+        <div class="sk2-field"><span class="sk2-label">Age</span><span class="sk2-value">${p.age}</span></div>
+        <div class="sk2-field"><span class="sk2-label">Nationality</span><span class="sk2-value"><img src="images/flags/${p.flag}" class="sk2-flag" onerror="this.style.display='none'">${p.nat}</span></div>
+        <div class="sk2-field"><span class="sk2-label">Zip Code</span><span class="sk2-value">${p.zip}</span></div>
+        <div class="sk2-field"><span class="sk2-label">Phone</span><span class="sk2-value">${p.phone}</span></div>
+        <div class="sk2-field"><span class="sk2-label">Email</span><span class="sk2-value" style="font-size:10px;">${p.email}</span></div>
+      </div>
+    `).join('');
+    document.getElementById('sk2-counter').textContent = `${sk2Idx + 1} / 10`;
+  }
+  function nextSK2() { if(sk2Idx < 9){ sk2Idx++; renderSK2(); } }
+  function prevSK2() { if(sk2Idx > 0){ sk2Idx--; renderSK2(); } }
+
+  function renderLS() {
+    const d = LS_DATA[lsIdx];
+    const form = document.getElementById('ls-form');
+    const fields = ['First Name', 'Last Name', 'Age', 'Job', 'Zip Code', 'Nationality', 'Relationship', 'Name'];
+    form.innerHTML = fields.map((f, i) => `
+      <div class="ls-row">
+        <span class="ls-label">${f}</span>
+        <div class="ls-input-wrapper">
+          <input type="text" class="ls-input" id="ls-in-${i}">
+          <button class="ls-check" id="ls-btn-${i}" onclick="checkLS(${i}, '${d.answers[i]}')">✔</button>
+        </div>
+      </div>
+    `).join('');
+    document.getElementById('ls-speaker-img').src = d.img;
+    document.getElementById('ls-speaker-name').textContent = d.name;
+    document.getElementById('ls-audio-player').src = d.audio;
+    stopAudio();
+    document.getElementById('ls-counter').textContent = `${lsIdx + 1} / 4`;
+    renderWaveform();
+  }
+
+  function checkLS(idx, correct) {
+    const input = document.getElementById(`ls-in-${idx}`);
+    const btn = document.getElementById(`ls-btn-${idx}`);
+    if(input.value.toLowerCase().trim() === correct.toLowerCase()) {
+      btn.style.background = '#4CAF50';
+    } else {
+      btn.style.background = '#F44336';
+      input.value = correct;
+      setTimeout(() => { btn.style.background = 'rgba(255,255,255,0.1)'; input.value = ''; }, 2000);
+    }
+  }
+
+  function toggleAudio() {
+    const player = document.getElementById('ls-audio-player');
+    const btn = document.getElementById('ls-play-btn');
+    if(isPlaying) { player.pause(); btn.textContent = '▶'; }
+    else { player.play(); btn.textContent = '⏸'; }
+    isPlaying = !isPlaying;
+  }
+  function stopAudio() {
+    const player = document.getElementById('ls-audio-player');
+    player.pause(); player.currentTime = 0;
+    document.getElementById('ls-play-btn').textContent = '▶';
+    isPlaying = false;
+  }
+  function nextLS() { lsIdx = (lsIdx + 1) % 4; renderLS(); }
+  function prevLS() { lsIdx = (lsIdx - 1 + 4) % 4; renderLS(); }
+
+  function renderWaveform() {
+    const wf = document.getElementById('ls-waveform');
+    wf.innerHTML = Array(15).fill(0).map(() => `<div style="width:2px; height:${Math.random()*15+5}px; background:rgba(255,255,255,0.3); border-radius:2px;"></div>`).join('');
+  }
+
+  function openLP(n) {
+    const d = LP_DATA[n];
+    document.getElementById('lp-title').textContent = d.title;
+    document.getElementById('lp-goal').innerHTML = `<strong>Goal:</strong> ${d.goal}`;
+    document.getElementById('lp-cues').innerHTML = `<strong>Cues:</strong> ${d.cues}`;
+    document.getElementById('lp-dos').innerHTML = `<strong>Do's:</strong> ${d.dos}`;
+    document.getElementById('lp-donts').innerHTML = `<strong>Don'ts:</strong> ${d.donts}`;
+    document.getElementById('lp-overlay').style.display = 'flex';
+  }
+  function closeLP() { document.getElementById('lp-overlay').style.display = 'none'; }
+</script>
+
+</body>
+</html>
